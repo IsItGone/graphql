@@ -1,0 +1,10 @@
+extend type Query {
+    testRoute: Route
+    testRouteError: Route
+
+    getRoutes: [Route]
+    getRouteById(id: ID!): Route
+    getRouteByName(name: String!): Route
+    getRoutesByStationId(stationId: ID!): [Route]
+    searchRoutesByKeyword(keyword: String!): [Route]
+}

@@ -1,0 +1,8 @@
+type Station {
+    id: ID!
+    name: String
+    address: String
+    latitude: Float
+    longitude: Float
+    isBoarding: Boolean!
+}

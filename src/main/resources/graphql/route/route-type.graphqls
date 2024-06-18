@@ -1,0 +1,5 @@
+type Route {
+    id: ID!
+    name: String!
+    stations: [Station!]
+}
