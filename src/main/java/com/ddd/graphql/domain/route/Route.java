@@ -12,8 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 public class Route {
 
-    @Id
-    private String id;
-    private String name;
-    private List<Station> stations;
+	@Id
+	private String id;
+	private String name;
+	private List<Station> stations;
 }
