@@ -6,7 +6,8 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 import static org.springframework.data.mongodb.core.aggregation.LookupOperation.newLookup;
 
-import com.ddd.graphql.domain.route.Route;
+import com.ddd.graphql.domain.route.graphql.entity.Route;
+import java.util.Collections;
 import java.util.LinkedList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

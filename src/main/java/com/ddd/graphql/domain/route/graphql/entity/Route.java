@@ -1,6 +1,5 @@
-package com.ddd.graphql.domain.route;
+package com.ddd.graphql.domain.route.graphql.entity;
 
-import com.ddd.graphql.domain.station.Station;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,5 +14,6 @@ public class Route {
 	@Id
 	private String id;
 	private String name;
-	private List<Station> stations;
+	private List<StationInfo> departureStations;
+	private List<StationInfo> arrivalStations;
 }
