@@ -2,7 +2,7 @@ package com.ddd.graphql.domain.route.resolver;
 
 import com.ddd.graphql.domain.route.graphql.type.RouteType;
 import com.ddd.graphql.domain.route.service.RouteQueryService;
-import com.ddd.graphql.domain.station.Station;
+import com.ddd.graphql.domain.station.graphql.type.StationType;
 import com.ddd.graphql.exception.RouteNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +23,23 @@ public class RouteQueryResolver {
 		return Mono.just(RouteType.builder()
 				.id("testRouteId")
 				.name("testRouteName")
-				.stations(List.of(Station.builder()
+				.departureStations(List.of(StationType.builder()
 						.id("testStationId")
 						.name("testStationName")
 						.address("testAddress")
 						.latitude(37.0)
 						.longitude(128.0)
-						.isBoarding(true)
+						.stopTime("08:35")
+						.isDeparture(true)
+						.build()))
+				.arrivalStations(List.of(StationType.builder()
+						.id("testStationId")
+						.name("testStationName")
+						.address("testAddress")
+						.latitude(37.0)
+						.longitude(128.0)
+						.stopTime("08:35")
+						.isDeparture(true)
 						.build()))
 				.build());
 	}

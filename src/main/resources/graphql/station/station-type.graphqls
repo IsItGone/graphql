@@ -1,8 +1,10 @@
 type Station {
     id: ID!
     name: String
+    description: String
     address: String
     latitude: Float
     longitude: Float
-    isBoarding: Boolean!
+    stopTime: String
+    isDeparture: Boolean
 }
