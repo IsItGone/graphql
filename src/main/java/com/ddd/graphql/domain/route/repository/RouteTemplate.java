@@ -12,4 +12,6 @@ public interface RouteTemplate {
 
 	Mono<Route> findByName(String name);
 
+	Flux<Route> findByStationId(String stationId);
+
 }

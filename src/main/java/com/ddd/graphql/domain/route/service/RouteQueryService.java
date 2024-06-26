@@ -12,8 +12,6 @@ public interface RouteQueryService {
 
 	Mono<RouteType> getRouteByName(String name);
 
-	Flux<RouteType> getRoutesByStationId(String name);
-
-	Flux<RouteType> searchRoutesByKeyword(String keyword);
+	Flux<RouteType> getRoutesByStationId(String stationId);
 }
 

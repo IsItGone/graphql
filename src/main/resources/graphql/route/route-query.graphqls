@@ -6,5 +6,4 @@ extend type Query {
     getRouteById(id: ID!): Route
     getRouteByName(name: String!): Route
     getRoutesByStationId(stationId: ID!): [Route]
-    searchRoutesByKeyword(keyword: String!): [Route]
 }

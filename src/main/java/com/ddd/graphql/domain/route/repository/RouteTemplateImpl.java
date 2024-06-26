@@ -103,4 +103,17 @@ public class RouteTemplateImpl implements RouteTemplate {
 		return Mono.from(mongoTemplate.aggregate(aggregation, Route.class));
 	}
 
+	@Override
+	public Flux<Route> findByStationId(String stationId) {
+		MatchOperation matchOperation = match(
+				Criteria.where("departureStations.station._id").is(stationId)
+						.orOperator(Criteria.where("arrivalStations.station._id").is(stationId)));
+
+		LinkedList<AggregationOperation> aggregationOperations = getStationPopulationOperations();
+		aggregationOperations.addFirst(matchOperation);
+
+		TypedAggregation<Route> aggregation = newAggregation(Route.class, aggregationOperations);
+
+		return Flux.from(mongoTemplate.aggregate(aggregation, Route.class));
+	}
 }

@@ -66,14 +66,7 @@ public class RouteQueryResolver {
 
 	@QueryMapping
 	public Flux<RouteType> getRoutesByStationId(@Argument String stationId) {
-		// TODO
-		return null;
-	}
-
-	@Deprecated
-	@QueryMapping
-	public Flux<RouteType> searchRoutesByKeyword(@Argument String keyword) {
-		return null;
+		return routeQueryService.getRoutesByStationId(stationId);
 	}
 
 }

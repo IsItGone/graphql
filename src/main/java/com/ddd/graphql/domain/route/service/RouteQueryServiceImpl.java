@@ -36,16 +36,7 @@ public class RouteQueryServiceImpl implements RouteQueryService {
 	}
 
 	@Override
-	public Flux<RouteType> getRoutesByStationId(String name) {
-		// TODO
-		return null;
+	public Flux<RouteType> getRoutesByStationId(String stationId) {
+		return routeRepository.findByStationId(stationId).map(routeMapper::toRouteType);
 	}
-
-	@Override
-	public Flux<RouteType> searchRoutesByKeyword(String keyword) {
-		// TODO
-		return null;
-	}
-
-
 }
