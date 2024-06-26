@@ -1,4 +1,4 @@
-package com.ddd.graphql.domain.station;
+package com.ddd.graphql.domain.station.graphql.entity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +13,9 @@ public class Station {
 	@Id
 	private String id;
 	private String name;
+	private String description;
 	private String address;
 	private Double latitude;
 	private Double longitude;
-	private Boolean isBoarding;
+	private Boolean isDeparture;
 }
