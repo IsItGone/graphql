@@ -34,21 +34,39 @@ public class RouteTemplateImpl implements RouteTemplate {
 	private static LinkedList<AggregationOperation> getStationPopulationOperations() {
 		LinkedList<AggregationOperation> aggregationOperations = new LinkedList<>();
 
-		LookupOperation lookupOperation = newLookup()
-				.from("stations")
-				.localField("stations")
-				.foreignField("_id")
-				.as("stationsDetails");
+		UnwindOperation departureStationsUnwindOperation = unwind("departureStations", true);
+		UnwindOperation arrivalStationsUnwindOperation = unwind("arrivalStations", true);
 
-		UnwindOperation unwindOperation = unwind("stationsDetails", true);
+		LookupOperation departureLookupOperation = newLookup()
+				.from("stations")
+				.localField("departureStations.stationId")
+				.foreignField("_id")
+				.as("departureStations.station");
+
+		LookupOperation arrivalLookupOperation = newLookup()
+				.from("stations")
+				.localField("arrivalStations.stationId")
+				.foreignField("_id")
+				.as("arrivalStations.station");
+
+		UnwindOperation departureStationsDocUnwindOperation = unwind("$departureStations.station",
+				true);
+		UnwindOperation arrivalStationsDocUnwindOperation = unwind("arrivalStations.station", true);
 
 		GroupOperation groupOperation = group("_id")
 				.first("name").as("name")
-				.push("stationsDetails").as("stations");
+				.push("departureStations").as("departureStations")
+				.push("arrivalStations").as("arrivalStations");
 
-		aggregationOperations.add(lookupOperation);
-		aggregationOperations.add(unwindOperation);
-		aggregationOperations.add(groupOperation);
+		Collections.addAll(aggregationOperations,
+				departureStationsUnwindOperation,
+				arrivalStationsUnwindOperation,
+				departureLookupOperation,
+				arrivalLookupOperation,
+				departureStationsDocUnwindOperation,
+				arrivalStationsDocUnwindOperation,
+				groupOperation
+		);
 
 		return aggregationOperations;
 	}
