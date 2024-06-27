@@ -1,7 +1,7 @@
 extend type Query {
     testStationError: Station
+    testStation: Station
     getStations: [Station]
     getStationById(id: ID!): Station
     searchStationsByKeyword(keyword: String!): [Station]
-    #    getStationByName(name: String!): Station
 }
