@@ -35,37 +35,41 @@ public class RouteTemplateImpl implements RouteTemplate {
 		LinkedList<AggregationOperation> aggregationOperations = new LinkedList<>();
 
 		UnwindOperation departureStationsUnwindOperation = unwind("departureStations", true);
-		UnwindOperation arrivalStationsUnwindOperation = unwind("arrivalStations", true);
-
 		LookupOperation departureLookupOperation = newLookup()
 				.from("stations")
 				.localField("departureStations.stationId")
 				.foreignField("_id")
 				.as("departureStations.station");
+		UnwindOperation departureStationsDocUnwindOperation = unwind("departureStations.station",
+				true);
 
+		GroupOperation departureGroupOperation = group("_id")
+				.first("name").as("name")
+				.push("departureStations").as("departureStations")
+				.first("arrivalStations").as("arrivalStations");
+
+		UnwindOperation arrivalStationsUnwindOperation = unwind("arrivalStations", true);
 		LookupOperation arrivalLookupOperation = newLookup()
 				.from("stations")
 				.localField("arrivalStations.stationId")
 				.foreignField("_id")
 				.as("arrivalStations.station");
-
-		UnwindOperation departureStationsDocUnwindOperation = unwind("$departureStations.station",
-				true);
 		UnwindOperation arrivalStationsDocUnwindOperation = unwind("arrivalStations.station", true);
 
-		GroupOperation groupOperation = group("_id")
+		GroupOperation arrivalGroupOperation = group("_id")
 				.first("name").as("name")
-				.push("departureStations").as("departureStations")
+				.first("departureStations").as("departureStations")
 				.push("arrivalStations").as("arrivalStations");
 
 		Collections.addAll(aggregationOperations,
 				departureStationsUnwindOperation,
-				arrivalStationsUnwindOperation,
 				departureLookupOperation,
-				arrivalLookupOperation,
 				departureStationsDocUnwindOperation,
+				departureGroupOperation,
+				arrivalStationsUnwindOperation,
+				arrivalLookupOperation,
 				arrivalStationsDocUnwindOperation,
-				groupOperation
+				arrivalGroupOperation
 		);
 
 		return aggregationOperations;
