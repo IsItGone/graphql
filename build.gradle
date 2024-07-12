@@ -9,7 +9,13 @@ ext {
 }
 
 group = 'com.ddd'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
+
+jar {
+    archivesBaseName = "isitgone-${rootProject.name}"
+    archiveVersion = "${version}"
+    archiveClassifier = ''
+}
 
 java {
     toolchain {
