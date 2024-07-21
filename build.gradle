@@ -9,11 +9,10 @@ ext {
 }
 
 group = 'com.ddd'
-version = '1.0.0'
 
 jar {
-    archivesBaseName = "isitgone-${rootProject.name}"
-    archiveVersion = "${version}"
+    archivesBaseName = 'app'
+    archiveVersion = ''
     archiveClassifier = ''
 }
 
