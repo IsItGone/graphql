@@ -1,17 +1,15 @@
 package com.ddd.graphql.domain.station.repository;
 
 import com.ddd.graphql.domain.station.graphql.entity.Station;
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-public interface StationRepository extends ReactiveMongoRepository<Station, String>,
-		StationTemplate {
+public interface StationRepository {
 
-	Flux<Station> findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrAddressContainsIgnoreCase(
-			String keyword, String keyword2, String keyword3);
+	Mono<Station> findById(String id);
 
-	default Flux<Station> findByKeyword(String keyword) {
-		return findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrAddressContainsIgnoreCase(
-				keyword, keyword, keyword);
-	}
+	Flux<Station> findAll();
+
+	Flux<Station> findByKeyword(String keyword);
+
 }
