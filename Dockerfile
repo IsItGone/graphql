@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM bellsoft/liberica-runtime-container:jre-17.0.9-slim-musl
 
 LABEL authors="oh3823"
 
