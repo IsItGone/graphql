@@ -1,5 +1,6 @@
 package com.ddd.graphql.domain.station.resolver;
 
+import com.ddd.graphql.domain.station.graphql.StationMapper;
 import com.ddd.graphql.domain.station.graphql.type.StationType;
 import com.ddd.graphql.domain.station.service.StationQueryService;
 import com.ddd.graphql.exception.StationNotFoundException;
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono;
 public class StationQueryResolver {
 
 	private final StationQueryService stationQueryService;
-
+	private final StationMapper stationMapper;
 
 	@QueryMapping
 	public Mono<StationType> testStation() {
@@ -37,17 +38,18 @@ public class StationQueryResolver {
 
 	@QueryMapping
 	public Flux<StationType> getStations() {
-		return stationQueryService.getStations();
+		return stationQueryService.getStations().map(stationMapper::toStationType);
 	}
 
 	@QueryMapping
 	public Mono<StationType> getStationById(@Argument String id) {
-		return stationQueryService.getStationById(id);
+		return stationQueryService.getStationById(id).map(stationMapper::toStationType);
 	}
 
 	@QueryMapping
 	public Flux<StationType> searchStationsByKeyword(@Argument String keyword) {
-		return stationQueryService.searchStationsByKeyword(keyword);
+		return stationQueryService.searchStationsByKeyword(keyword)
+				.map(stationMapper::toStationType);
 	}
 
 }

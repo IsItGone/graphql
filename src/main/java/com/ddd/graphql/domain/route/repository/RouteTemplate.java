@@ -1,17 +1,17 @@
 package com.ddd.graphql.domain.route.repository;
 
-import com.ddd.graphql.domain.route.graphql.entity.Route;
+import com.ddd.graphql.domain.route.repository.document.RouteDocument;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface RouteTemplate {
 
-	Mono<Route> findById(String id);
+	Mono<RouteDocument> findById(String id);
 
-	Flux<Route> findAll();
+	Flux<RouteDocument> findAll();
 
-	Mono<Route> findByName(String name);
+	Mono<RouteDocument> findByName(String name);
 
-	Flux<Route> findByStationId(String stationId);
+	Flux<RouteDocument> findByStationId(String stationId);
 
 }

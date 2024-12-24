@@ -1,15 +1,14 @@
 package com.ddd.graphql.domain.station.service;
 
-import com.ddd.graphql.domain.station.graphql.type.StationType;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface StationQueryService {
 
-	Flux<StationType> getStations();
+	Flux<Station> getStations();
 
-	Mono<StationType> getStationById(String id);
+	Mono<Station> getStationById(String id);
 
-	Flux<StationType> searchStationsByKeyword(String keyword);
+	Flux<Station> searchStationsByKeyword(String keyword);
 
 }
