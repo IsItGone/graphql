@@ -1,11 +1,12 @@
 package com.ddd.graphql.domain.station.repository;
 
-import com.ddd.graphql.domain.station.graphql.entity.Station;
+import com.ddd.graphql.domain.station.repository.document.StationDocument;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 
-public interface StationReactiveMongoRepository extends ReactiveMongoRepository<Station, String> {
+public interface StationReactiveMongoRepository extends
+		ReactiveMongoRepository<StationDocument, String> {
 
-	Flux<Station> findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrAddressContainsIgnoreCase(
+	Flux<StationDocument> findByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseOrAddressContainsIgnoreCase(
 			String keyword, String keyword2, String keyword3);
 }

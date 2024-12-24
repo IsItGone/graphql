@@ -1,4 +1,4 @@
-package com.ddd.graphql.domain.station.graphql.entity;
+package com.ddd.graphql.domain.station.repository.document;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "stations")
 @Getter
 @Builder
-public class Station {
+public class StationDocument {
 
 	@Id
 	private String id;

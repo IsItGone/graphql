@@ -1,6 +1,6 @@
 package com.ddd.graphql.domain.route.repository;
 
-import com.ddd.graphql.domain.route.graphql.entity.Route;
+import com.ddd.graphql.domain.route.service.Route;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

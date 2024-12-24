@@ -1,5 +1,6 @@
-package com.ddd.graphql.domain.route.graphql.entity;
+package com.ddd.graphql.domain.route.repository.document;
 
+import com.ddd.graphql.domain.station.repository.document.StationDocumentInfo;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,11 +10,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "routes")
 @Getter
 @Builder
-public class Route {
+public class RouteDocument {
 
 	@Id
 	private String id;
 	private String name;
-	private List<StationInfo> departureStations;
-	private List<StationInfo> arrivalStations;
+	private List<StationDocumentInfo> departureStations;
+	private List<StationDocumentInfo> arrivalStations;
 }

@@ -2,9 +2,9 @@ package com.ddd.graphql.exception;
 
 import graphql.GraphQLError;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.graphql.data.method.annotation.GraphQlExceptionHandler;
 import reactor.core.publisher.Mono;
 
 @ControllerAdvice

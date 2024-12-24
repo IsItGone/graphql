@@ -1,5 +1,6 @@
 package com.ddd.graphql.domain.route.resolver;
 
+import com.ddd.graphql.domain.route.graphql.RouteMapper;
 import com.ddd.graphql.domain.route.graphql.type.RouteType;
 import com.ddd.graphql.domain.route.service.RouteQueryService;
 import com.ddd.graphql.domain.station.graphql.type.StationType;
@@ -17,6 +18,7 @@ import reactor.core.publisher.Mono;
 public class RouteQueryResolver {
 
 	private final RouteQueryService routeQueryService;
+	private final RouteMapper routeMapper;
 
 	@QueryMapping
 	public Mono<RouteType> testRoute() {
@@ -51,22 +53,22 @@ public class RouteQueryResolver {
 
 	@QueryMapping
 	public Flux<RouteType> getRoutes() {
-		return routeQueryService.getRoutes();
+		return routeQueryService.getRoutes().map(routeMapper::toRouteType);
 	}
 
 	@QueryMapping
 	public Mono<RouteType> getRouteById(@Argument String id) {
-		return routeQueryService.getRouteById(id);
+		return routeQueryService.getRouteById(id).map(routeMapper::toRouteType);
 	}
 
 	@QueryMapping
 	public Mono<RouteType> getRouteByName(@Argument String name) {
-		return routeQueryService.getRouteByName(name);
+		return routeQueryService.getRouteByName(name).map(routeMapper::toRouteType);
 	}
 
 	@QueryMapping
 	public Flux<RouteType> getRoutesByStationId(@Argument String stationId) {
-		return routeQueryService.getRoutesByStationId(stationId);
+		return routeQueryService.getRoutesByStationId(stationId).map(routeMapper::toRouteType);
 	}
 
 }
