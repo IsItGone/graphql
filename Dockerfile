@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-runtime-container:jre-17.0.9-slim-musl
+FROM bellsoft/liberica-runtime-container:jre-17.0.13-slim-musl
 
 LABEL authors="oh3823"
 
