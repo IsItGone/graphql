@@ -33,6 +33,7 @@ public class RouteQueryResolver {
 						.longitude(128.0)
 						.stopTime("08:35")
 						.isDeparture(true)
+						.routes(List.of("1", "2", "3"))
 						.build()))
 				.arrivalStations(List.of(StationType.builder()
 						.id("testStationId")
@@ -42,6 +43,7 @@ public class RouteQueryResolver {
 						.longitude(128.0)
 						.stopTime("08:35")
 						.isDeparture(true)
+						.routes(List.of("1", "2", "3"))
 						.build()))
 				.build());
 	}
