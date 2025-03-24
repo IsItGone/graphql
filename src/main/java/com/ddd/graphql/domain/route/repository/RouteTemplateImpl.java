@@ -3,6 +3,7 @@ package com.ddd.graphql.domain.route.repository;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.unwind;
 import static org.springframework.data.mongodb.core.aggregation.LookupOperation.newLookup;
 
@@ -12,11 +13,13 @@ import java.util.LinkedList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -61,10 +64,12 @@ public class RouteTemplateImpl implements RouteTemplate {
 				.first(DEPARTURE_STATION_LIST_NAME).as(DEPARTURE_STATION_LIST_NAME)
 				.push(ARRIVAL_STATION_LIST_NAME).as(ARRIVAL_STATION_LIST_NAME);
 
+		SortOperation sortOperation = sort(Sort.by(Sort.Direction.ASC, "name"));
+
 		Collections.addAll(aggregationOperations, departureStationsUnwindOperation,
 				departureLookupOperation, departureStationsDocUnwindOperation,
 				departureGroupOperation, arrivalStationsUnwindOperation, arrivalLookupOperation,
-				arrivalStationsDocUnwindOperation, arrivalGroupOperation);
+				arrivalStationsDocUnwindOperation, arrivalGroupOperation, sortOperation);
 
 		return aggregationOperations;
 	}

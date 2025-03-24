@@ -7,4 +7,5 @@ type Station {
     longitude: Float
     stopTime: String
     isDeparture: Boolean
+    routes: [String]
 }
