@@ -1,0 +1,29 @@
+name: Deploy to Dev Environment
+
+on:
+  push:
+    branches:
+      - ci
+  workflow_dispatch:
+
+env:
+  IMAGE_PREFIX: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
+  COMMIT_HASH: ${{ github.sha }}
+
+jobs:
+  build-and-deploy:
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build jar with Gradle
+        uses: IsItgone/ci-templates/.github/actions/build-jar@main
+
+      - name: Build image with Docker buildx
+        uses: IsItgone/ci-templates/.github/actions/build-and-push-image@main
+        with:
+          tags: |
+            ${{ env.IMAGE_PREFIX }}:${{ env.COMMIT_HASH }}
+          password: ${{ secrets.GHCR_TOKEN }}
