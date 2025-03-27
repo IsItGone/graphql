@@ -20,7 +20,5 @@ jobs:
       - name: Build image with Docker buildx
         uses: IsItgone/ci-templates/.github/actions/build-and-push-image@main
         with:
-          # tags: ${{ vars.ORG_NAME }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }},${{ vars.ORG_NAME }}/${{ github.event.repository.name }}:latest # 이렇게 사용할 수 있게 변경
-          tag: ${{ github.event.release.tag_name }}
-          image-name: ${{ vars.ORG_NAME }}/${{ github.event.repository.name }}
+          tags: ${{ vars.ORG_NAME }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }},${{ vars.ORG_NAME }}/${{ github.event.repository.name }}:latest
           password: ${{ secrets.GHCR_TOKEN }}
