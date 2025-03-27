@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci
   workflow_dispatch:
 
 env:
@@ -24,6 +25,7 @@ jobs:
       - name: Build image with Docker buildx
         uses: IsItgone/ci-templates/.github/actions/build-and-push-image@main
         with:
+          registry: ${{ vars.REGISTRY }}
           tags: |
             ${{ env.IMAGE_PREFIX }}:${{ env.COMMIT_HASH }}
           password: ${{ secrets.GHCR_TOKEN }}

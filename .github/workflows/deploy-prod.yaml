@@ -24,6 +24,7 @@ jobs:
       - name: Build image with Docker buildx
         uses: IsItgone/ci-templates/.github/actions/build-and-push-image@main
         with:
+          registry: ${{ vars.REGISTRY }}
           tags: |
             ${{ env.IMAGE_PREFIX }}:${{ env.RELEASE_TAG }},
             ${{ env.IMAGE_PREFIX }}:latest
