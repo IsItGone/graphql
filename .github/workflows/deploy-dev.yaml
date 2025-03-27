@@ -6,6 +6,10 @@ on:
       - ci
   workflow_dispatch:
 
+env:
+  IMAGE_PREFIX: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
+  COMMIT_HASH: ${{ github.sha }}
+
 jobs:
   build-and-deploy:
     environment: dev
@@ -20,5 +24,6 @@ jobs:
       - name: Build image with Docker buildx
         uses: IsItgone/ci-templates/.github/actions/build-and-push-image@main
         with:
-          tags: ${{ vars.ORG_NAME }}/${{ github.event.repository.name }}:${{ github.sha }}
+          tags: |
+            ${{ env.IMAGE_PREFIX }}:${{ env.COMMIT_HASH }}
           password: ${{ secrets.GHCR_TOKEN }}
