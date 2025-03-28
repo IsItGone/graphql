@@ -14,7 +14,7 @@ env:
 
 jobs:
   build-and-push:
-    if: false
+    if: false # TODO: delete line
     environment: dev
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
   update-helm-chart:
-    needs: build-and-push
+    #    needs: build-and-push # TODO: uncomment
     environment: dev
     runs-on: ubuntu-latest
     steps:
