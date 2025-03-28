@@ -1,5 +1,8 @@
 name: Update and Package Helm Chart (Dev)
 on:
+  push:
+    branches:
+      - ci
   workflow_run:
     workflows:
       - Build and Push Package (Dev)
