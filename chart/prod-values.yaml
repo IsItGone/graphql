@@ -1,0 +1,8 @@
+replicaCount: 3
+
+ingress:
+  host: isitgone.site
+
+resources:
+  requests:
+    memory: 256Mi
