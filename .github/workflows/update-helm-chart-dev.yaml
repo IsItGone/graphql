@@ -1,0 +1,33 @@
+name: Update and Package Helm Chart (Dev)
+on:
+  workflow_run:
+    workflows:
+      - Build and Push Package (Dev)
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
+
+jobs:
+  update-helm-chart:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: charts
+
+      - name: Update App version and Image repository
+        uses: mikefarah/yq@v4
+        with:
+          cmd: |
+            '.appVersion = "${{ github.sha }}"' Chart.yaml
+            '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' values.yaml
+            '.ingress.host = "dev.${{ vars.HOST }}"' dev-values.yaml
+
