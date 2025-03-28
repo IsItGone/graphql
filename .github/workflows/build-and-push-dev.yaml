@@ -55,4 +55,3 @@ jobs:
         uses: mikefarah/yq@v4
         with:
           cmd: '.ingress.host = "${{ env.HOST }}"' dev-values.yaml
-
