@@ -4,18 +4,15 @@ on:
   push:
     branches:
       - main
-      - ci
   workflow_dispatch:
 
 env:
   IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
-  # APP_VERSION: ${{ github.sha }}
-  APP_VERSION: test # TODO: change env
+  APP_VERSION: ${{ github.sha }}
   HOST: dev.${{ vars.HOST }}
 
 jobs:
   build-and-push:
-    if: false # TODO: delete line
     environment: dev
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +31,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
   update-helm-chart:
-    #    needs: build-and-push # TODO: uncomment
+    needs: build-and-push
     permissions:
       contents: write
     environment: dev
