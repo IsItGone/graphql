@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - main
-      - ci
   workflow_dispatch:
 
 env:
-  IMAGE_PREFIX: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
+  IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
   COMMIT_HASH: ${{ github.sha }}
 
 jobs:
@@ -27,5 +26,5 @@ jobs:
         with:
           registry: ${{ vars.REGISTRY }}
           tags: |
-            ${{ env.IMAGE_PREFIX }}:${{ env.COMMIT_HASH }}
+            ${{ env.IMAGE_REPOSITORY }}:${{ env.COMMIT_HASH }}
           password: ${{ secrets.GHCR_TOKEN }}
