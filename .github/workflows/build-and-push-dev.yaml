@@ -41,11 +41,18 @@ jobs:
         with:
           ref: charts
 
-      - name: Update App version and Image repository
+      - name: Update App version
         uses: mikefarah/yq@v4
         with:
-          cmd: |
-            '.appVersion = "${{ env.APP_VERSION }}"' Chart.yaml
-            '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' values.yaml
-            '.ingress.host = "${{ env.HOST }}"' dev-values.yaml
+          cmd: '.appVersion = "${{ env.APP_VERSION }}"' Chart.yaml
+
+      - name: Update Image repository
+        uses: mikefarah/yq@v4
+        with:
+          cmd: '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' values.yaml
+
+      - name: Update Host
+        uses: mikefarah/yq@v4
+        with:
+          cmd: '.ingress.host = "${{ env.HOST }}"' dev-values.yaml
 
