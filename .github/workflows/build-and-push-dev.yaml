@@ -9,7 +9,8 @@ on:
 
 env:
   IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
-  APP_VERSION: ${{ github.sha }}
+  # APP_VERSION: ${{ github.sha }}
+  APP_VERSION: test # TODO: change env
   HOST: dev.${{ vars.HOST }}
 
 jobs:
@@ -34,6 +35,8 @@ jobs:
 
   update-helm-chart:
     #    needs: build-and-push # TODO: uncomment
+    permissions:
+      contents: write
     environment: dev
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +45,7 @@ jobs:
         with:
           ref: charts
 
-      - name: Update App version
+      - name: Update Helm Chart
         uses: mikefarah/yq@v4
         with:
           cmd: |
@@ -50,6 +53,7 @@ jobs:
             yq -i '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' chart/values.yaml
             yq -i '.ingress.host = "${{ env.HOST }}"' chart/dev-values.yaml
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Update App version to ${{ env.APP_VERSION }}
