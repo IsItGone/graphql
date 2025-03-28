@@ -1,8 +1,6 @@
 replicaCount: 1
-
 ingress:
   host: dev.isitgone.site
-
 resources:
   requests:
     cpu: 100m
