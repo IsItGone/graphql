@@ -9,7 +9,8 @@ on:
 
 env:
   IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
-  COMMIT_HASH: ${{ github.sha }}
+  APP_VERSION: ${{ github.sha }}
+  HOST: dev.${{ vars.HOST }}
 
 jobs:
   build-and-push:
@@ -27,5 +28,24 @@ jobs:
         with:
           registry: ${{ vars.REGISTRY }}
           tags: |
-            ${{ env.IMAGE_REPOSITORY }}:${{ env.COMMIT_HASH }}
+            ${{ env.IMAGE_REPOSITORY }}:${{ env.APP_VERSION }}
           password: ${{ secrets.GHCR_TOKEN }}
+
+  update-helm-chart:
+    needs: build-and-push
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: charts
+
+      - name: Update App version and Image repository
+        uses: mikefarah/yq@v4
+        with:
+          cmd: |
+            '.appVersion = "${{ env.APP_VERSION }}"' Chart.yaml
+            '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' values.yaml
+            '.ingress.host = "${{ env.HOST }}"' dev-values.yaml
+
