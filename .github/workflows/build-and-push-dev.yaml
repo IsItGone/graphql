@@ -1,9 +1,10 @@
-name: Deploy to Dev Environment
+name: Build and Push Package (Dev)
 
 on:
   push:
     branches:
       - main
+      - ci
   workflow_dispatch:
 
 env:
@@ -11,17 +12,17 @@ env:
   COMMIT_HASH: ${{ github.sha }}
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     environment: dev
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Build jar with Gradle
         uses: IsItgone/ci-templates/.github/actions/build-jar@main
 
-      - name: Build image with Docker buildx
+      - name: Build and Push image with Docker buildx
         uses: IsItgone/ci-templates/.github/actions/build-and-push-image@main
         with:
           registry: ${{ vars.REGISTRY }}

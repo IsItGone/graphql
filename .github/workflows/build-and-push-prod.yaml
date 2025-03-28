@@ -1,4 +1,4 @@
-name: Deploy to Prod Environment
+name: Build and Push Package (Prod)
 
 on:
   release:
@@ -9,11 +9,11 @@ env:
   RELEASE_TAG: ${{ github.event.release.tag_name }}
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     environment: prod
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: refs/tags/${{ env.RELEASE_TAG }}
@@ -21,7 +21,7 @@ jobs:
       - name: Build jar with Gradle
         uses: IsItgone/ci-templates/.github/actions/build-jar@main
 
-      - name: Build image with Docker buildx
+      - name: Build and Push image with Docker buildx
         uses: IsItgone/ci-templates/.github/actions/build-and-push-image@main
         with:
           registry: ${{ vars.REGISTRY }}
@@ -29,3 +29,8 @@ jobs:
             ${{ env.IMAGE_PREFIX }}:${{ env.RELEASE_TAG }},
             ${{ env.IMAGE_PREFIX }}:latest
           password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
