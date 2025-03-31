@@ -11,7 +11,6 @@ import com.ddd.graphql.domain.route.repository.document.RouteDocument;
 import java.util.Collections;
 import java.util.LinkedList;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class RouteTemplateImpl implements RouteTemplate {
