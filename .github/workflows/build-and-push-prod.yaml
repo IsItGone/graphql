@@ -6,8 +6,8 @@ on:
 
 env:
   IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
-  RELEASE_TAG: ${{ github.event.release.tag_name }}
-
+  APP_VERSION: ${{ github.event.release.tag_name }}
+  HOST: ${{ vars.HOST }}
 jobs:
   build-and-push:
     environment: prod
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: refs/tags/${{ env.RELEASE_TAG }}
+          ref: refs/tags/${{ env.APP_VERSION }}
 
       - name: Build jar with Gradle
         uses: IsItgone/ci-templates/.github/actions/build-jar@main
@@ -26,11 +26,32 @@ jobs:
         with:
           registry: ${{ vars.REGISTRY }}
           tags: |
-            ${{ env.IMAGE_REPOSITORY }}:${{ env.RELEASE_TAG }},
+            ${{ env.IMAGE_REPOSITORY }}:${{ env.APP_VERSION }},
             ${{ env.IMAGE_REPOSITORY }}:latest
           password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  update-helm-chart:
+    needs: build-and-push
+    permissions:
+      contents: write
+    environment: prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: charts
+
+      - name: Update Helm Chart
+        uses: mikefarah/yq@v4
+        with:
+          cmd: |
+            yq -i '.appVersion = "${{ env.APP_VERSION }}"' chart/Chart.yaml
+            yq -i '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' chart/values.yaml
+            yq -i '.ingress.host = "${{ env.HOST }}"' chart/prod-values.yaml
+            yq -i '.image.tag = "${{ env.APP_VERSION }}"' chart/prod-values.yaml
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update App version to ${{ env.APP_VERSION }}

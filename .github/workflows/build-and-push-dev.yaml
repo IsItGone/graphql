@@ -46,9 +46,9 @@ jobs:
         uses: mikefarah/yq@v4
         with:
           cmd: |
-            yq -i '.appVersion = "${{ env.APP_VERSION }}"' chart/Chart.yaml
             yq -i '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' chart/values.yaml
             yq -i '.ingress.host = "${{ env.HOST }}"' chart/dev-values.yaml
+            yq -i '.image.tag = "${{ env.APP_VERSION }}"' chart/dev-values.yaml
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
