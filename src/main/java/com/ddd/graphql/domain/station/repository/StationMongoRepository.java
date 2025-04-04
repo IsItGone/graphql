@@ -3,12 +3,10 @@ package com.ddd.graphql.domain.station.repository;
 import com.ddd.graphql.domain.station.graphql.StationMapper;
 import com.ddd.graphql.domain.station.service.Station;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @RequiredArgsConstructor
 @Repository
 public class StationMongoRepository implements StationRepository {
