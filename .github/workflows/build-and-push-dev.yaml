@@ -10,9 +10,9 @@ on:
 env:
   ENVIRONMENT: dev
   REPOSITORY_NAME: ${{ github.event.repository.name }}
-  IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ env.REPOSITORY_NAME }}
+  IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
   APP_VERSION: ${{ github.sha }}
-  HOST: ${{env.ENVIRONMENT}}.${{ vars.HOST }}
+  HOST: dev.${{ vars.HOST }}
 
 jobs:
   build-and-push:
