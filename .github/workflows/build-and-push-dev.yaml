@@ -35,7 +35,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
   update-helm-chart:
-    needs: build-and-push
+#    needs: build-and-push # TODO: enable
     environment: dev
     runs-on: ubuntu-latest
     steps:
