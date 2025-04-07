@@ -34,7 +34,7 @@ jobs:
 
   update-helm-chart:
     needs: build-and-push
-    environment: dev
+    environment: ${{ env.ENVIRONMENT }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
