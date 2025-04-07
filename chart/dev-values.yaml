@@ -1,6 +1,6 @@
 replicaCount: 1
 image:
-  tag: ac4ce5002adec18d04e903a480f26df0526bfa76
+  tag: 5071c258d8042928136d5912fee355aea84c795c
 ingress:
   host: dev.isitgone.site
 resources:
