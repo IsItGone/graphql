@@ -43,6 +43,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ vars.ORGANIZATION }}/cluster-config
+          token: ${{ secrets.GITOPS_TOKEN }}
 
       - name: Update Helm Chart
 #        uses: mikefarah/yq@v4
