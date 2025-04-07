@@ -3,7 +3,6 @@ name: Build and Push Package (Prod)
 on:
   release:
     types: [ published ]
-  workflow_dispatch: # TODO: delete
 
 env:
   ENVIRONMENT: prod
@@ -14,7 +13,6 @@ env:
 
 jobs:
   build-and-push:
-    if: false # TODO: delete
     environment: prod
     runs-on: ubuntu-latest
     steps:
