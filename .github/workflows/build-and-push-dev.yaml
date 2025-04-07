@@ -46,10 +46,9 @@ jobs:
           repository: ${{ vars.ORGANIZATION }}/cluster-config
 
       - name: Update Helm Chart
-        uses: mikefarah/yq@v4
+#        uses: mikefarah/yq@v4
         working-directory: cluster-config/apps/${{ env.REPOSITORY_NAME }}/${{ env.ENVIRONMENT }}/chart
-        with:
-          cmd: |
+        run: |
             yq -i '.appVersion = "${{ env.APP_VERSION }}"' Chart.yaml
             yq -i '.spring-base.image.repository = "${{ env.IMAGE_REPOSITORY }}"' values.yaml
             yq -i '.spring-base.image.tag = "${{ env.APP_VERSION }}"' values.yaml
