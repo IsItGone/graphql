@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - ci # TODO: delete
   workflow_dispatch:
 
 env:
@@ -16,7 +15,6 @@ env:
 
 jobs:
   build-and-push:
-    if: false # TODO: delete
     environment: dev
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +33,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
   update-helm-chart:
-#    needs: build-and-push # TODO: enable
+    needs: build-and-push
     environment: dev
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +44,6 @@ jobs:
           token: ${{ secrets.GITOPS_TOKEN }}
 
       - name: Update Helm Chart
-#        uses: mikefarah/yq@v4
         working-directory: apps/${{ env.REPOSITORY_NAME }}/${{ env.ENVIRONMENT }}/chart
         run: |
             yq -i '.appVersion = "${{ env.APP_VERSION }}"' Chart.yaml
