@@ -4,12 +4,15 @@ on:
   push:
     branches:
       - main
+      - ci
   workflow_dispatch:
 
 env:
-  IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ github.event.repository.name }}
+  ENVIRONMENT: dev
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
+  IMAGE_REPOSITORY: ${{ vars.REGISTRY }}/${{ vars.ORGANIZATION }}/${{ env.REPOSITORY_NAME }}
   APP_VERSION: ${{ github.sha }}
-  HOST: dev.${{ vars.HOST }}
+  HOST: ${{env.ENVIRONMENT}}.${{ vars.HOST }}
 
 jobs:
   build-and-push:
@@ -40,15 +43,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: charts
+          repository: ${{ vars.ORGANIZATION }}/cluster-config
 
       - name: Update Helm Chart
         uses: mikefarah/yq@v4
+        working-directory: cluster-config/apps/${{ env.REPOSITORY_NAME }}/${{ env.ENVIRONMENT }}/chart
         with:
           cmd: |
-            yq -i '.image.repository = "${{ env.IMAGE_REPOSITORY }}"' chart/values.yaml
-            yq -i '.ingress.host = "${{ env.HOST }}"' chart/dev-values.yaml
-            yq -i '.image.tag = "${{ env.APP_VERSION }}"' chart/dev-values.yaml
+            yq -i '.appVersion = "${{ env.APP_VERSION }}"' Chart.yaml
+            yq -i '.spring-base.image.repository = "${{ env.IMAGE_REPOSITORY }}"' values.yaml
+            yq -i '.spring-base.image.tag = "${{ env.APP_VERSION }}"' values.yaml
+            yq -i '.spring-base.ingress.host = "${{ env.HOST }}"' values.yaml
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
