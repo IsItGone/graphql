@@ -1,5 +1,6 @@
 package com.ddd.graphql.domain.route.repository.document;
 
+import com.ddd.graphql.domain.route.graphql.type.Location;
 import com.ddd.graphql.domain.station.repository.document.StationDocumentInfo;
 import java.util.List;
 import lombok.Builder;
@@ -17,4 +18,6 @@ public class RouteDocument {
 	private String name;
 	private List<StationDocumentInfo> departureStations;
 	private List<StationDocumentInfo> arrivalStations;
+	private List<Location> departurePath;
+	private List<Location> arrivalPath;
 }

@@ -34,6 +34,8 @@ public class RouteTemplateImpl implements RouteTemplate {
 	private static final String DEPARTURE_STATION_LIST_NAME = "departureStations";
 	private static final String ARRIVAL_STATION_LIST_NAME = "arrivalStations";
 	private static final String STATION_DOCUMENT_NAME = "stationDocument";
+	private static final String DEPARTURE_PATH_LIST_NAME = "departurePath";
+	private static final String ARRIVAL_PATH_LIST_NAME = "arrivalPath";
 	private final ReactiveMongoTemplate mongoTemplate;
 
 	private static LinkedList<AggregationOperation> getStationPopulationOperations() {
@@ -49,7 +51,9 @@ public class RouteTemplateImpl implements RouteTemplate {
 
 		GroupOperation departureGroupOperation = group("_id").first("name").as("name")
 				.push(DEPARTURE_STATION_LIST_NAME).as(DEPARTURE_STATION_LIST_NAME)
-				.first(ARRIVAL_STATION_LIST_NAME).as(ARRIVAL_STATION_LIST_NAME);
+				.first(ARRIVAL_STATION_LIST_NAME).as(ARRIVAL_STATION_LIST_NAME)
+				.first(DEPARTURE_PATH_LIST_NAME).as(DEPARTURE_PATH_LIST_NAME)
+				.first(ARRIVAL_PATH_LIST_NAME).as(ARRIVAL_PATH_LIST_NAME);
 
 		UnwindOperation arrivalStationsUnwindOperation = unwind(ARRIVAL_STATION_LIST_NAME, true);
 		LookupOperation arrivalLookupOperation = newLookup().from(STATION_COLLECTION_NAME)
@@ -60,7 +64,9 @@ public class RouteTemplateImpl implements RouteTemplate {
 
 		GroupOperation arrivalGroupOperation = group("_id").first("name").as("name")
 				.first(DEPARTURE_STATION_LIST_NAME).as(DEPARTURE_STATION_LIST_NAME)
-				.push(ARRIVAL_STATION_LIST_NAME).as(ARRIVAL_STATION_LIST_NAME);
+				.push(ARRIVAL_STATION_LIST_NAME).as(ARRIVAL_STATION_LIST_NAME)
+				.first(DEPARTURE_PATH_LIST_NAME).as(DEPARTURE_PATH_LIST_NAME)
+				.first(ARRIVAL_PATH_LIST_NAME).as(ARRIVAL_PATH_LIST_NAME);
 
 		SortOperation sortOperation = sort(Sort.by(Sort.Direction.ASC, "name"));
 
