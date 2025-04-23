@@ -6,7 +6,8 @@ import lombok.Builder;
 
 @Builder
 public record RouteType(String id, String name, List<StationType> departureStations,
-						List<StationType> arrivalStations) {
+						List<StationType> arrivalStations, List<Location> departurePath,
+						List<Location> arrivalPath) {
 
 }
 

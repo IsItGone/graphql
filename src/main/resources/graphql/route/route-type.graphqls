@@ -3,4 +3,6 @@ type Route {
     name: String!
     departureStations: [Station]
     arrivalStations: [Station]
+    departurePath: [Location]
+    arrivalPath: [Location]
 }
